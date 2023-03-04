@@ -1,0 +1,50 @@
+###################################################
+# Providers
+###################################################
+aws:
+  id: "671393671211"
+  region: "ap-northeast-2"
+
+###################################################
+# aws_instance
+###################################################
+aws_resources:
+  instanace_type: "t2.small"
+  vpc_id: "vpc-0741d8ecd58197d0c"
+  sub_pub_man_a_id: "subnet-004f0791a0c0c4e57"
+  sub_pub_man_c_id: "subnet-0dd6cfeb8fe83cadc"
+  key_name: "jeff"
+
+aws_security_group:
+  ingress:
+  - name: ingress_80
+    description: Allow 80 from any
+    from_port: 80
+    to_port: 80
+    protocol: tcp
+    cidr_blocks:
+      - "0.0.0.0/0"
+  - name: ingress_22
+    description: Allow 22 from any
+    from_port: 22
+    to_port: 22
+    protocol: tcp
+    cidr_blocks:
+      - "0.0.0.0/0"
+  egress:
+  - name: egress_any
+    description: Allow any from any
+    from_port: 0
+    to_port: 0
+    protocol: "-1"
+    cidr_blocks:
+      - "0.0.0.0/0"
+
+
+###################################################
+# tags
+###################################################
+tags:
+  "common_tags":
+    Project: "jeff-project"
+    Team: "jeff-team"
