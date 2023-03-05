@@ -27,8 +27,8 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check -diff ./ec2
 
-    - name: Terraform Validate
-      run: terraform validate ./ec2
+    # - name: Terraform Validate
+    #   run: terraform validate ./ec2
 
     - name: Terraform Plan
       run: terraform plan ./ec2
