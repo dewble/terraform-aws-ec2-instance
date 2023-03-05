@@ -2,13 +2,13 @@ resource "aws_instance" "jeff-ubuntu" {
   depends_on = [
     aws_security_group.jeff-sg
   ]
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = local.config.aws_resources.instanace_type
-  subnet_id     = local.config.aws_resources.sub_pub_man_a_id
+  ami                  = data.aws_ami.ubuntu.id
+  instance_type        = local.config.aws_resources.instanace_type
+  subnet_id            = local.config.aws_resources.sub_pub_man_a_id
   iam_instance_profile = "session-manager-instance-profile"
-  key_name      = local.config.aws_resources.key_name
+  key_name             = local.config.aws_resources.key_name
   # user_data     = "${file("${local.scripts_path}/initial-install.sh")}"
-  user_data     = local.script_initial-install
+  user_data = local.script_initial-install
 
   tags = merge(
     local.config.tags.common_tags,
