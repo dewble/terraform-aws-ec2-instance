@@ -3,15 +3,17 @@ resource "aws_instance" "jeff-ubuntu" {
     aws_security_group.jeff-sg
   ]
   ami           = data.aws_ami.ubuntu.id
-  instance_type = yamldecode(file(var.config_file)).aws_resources.instanace_type
-  subnet_id     = yamldecode(file(var.config_file)).aws_resources.sub_pub_man_a_id
-  key_name      = yamldecode(file(var.config_file)).aws_resources.key_name
-  user_data     = file("${path.module}/scripts/initial-install.sh")
+  instance_type = local.config.aws_resources.instanace_type
+  subnet_id     = local.config.aws_resources.sub_pub_man_a_id
+  iam_instance_profile = "session-manager-instance-profile"
+  key_name      = local.config.aws_resources.key_name
+  # user_data     = "${file("${local.scripts_path}/initial-install.sh")}"
+  user_data     = local.script_initial-install
 
   tags = merge(
-    yamldecode(file(var.config_file)).tags.common_tags,
+    local.config.tags.common_tags,
     {
-      Name = "${yamldecode(file(var.config_file)).tags.common_tags.Project}-ec2"
+      Name = "${local.config.tags.common_tags.Project}-ec2"
     },
   )
   security_groups = [aws_security_group.jeff-sg.id]
@@ -22,7 +24,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {

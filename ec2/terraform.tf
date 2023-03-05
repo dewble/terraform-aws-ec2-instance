@@ -46,13 +46,20 @@ terraform {
 ################################################
 # Local Variables
 ################################################
+locals {
+  config = yamldecode(file(var.config_file))
+  settings = yamldecode(file(var.settings_file))
+  script_initial-install = file("${path.module}/scripts/initial-install.sh")
+  # scripts_path = "${path.module}/scripts"
+}
+
 
 ###################################################
 # Providers
 ###################################################
 provider "aws" {
-  region = yamldecode(file(var.settings_file)).aws.region
+  region = local.settings.aws.region
 
   # Only these AWS Account IDs may be operated on by this template
-  allowed_account_ids = [yamldecode(file(var.settings_file)).aws.id]
+  allowed_account_ids = [local.settings.aws.id]
 }
