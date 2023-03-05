@@ -31,7 +31,7 @@ jobs:
     #   run: terraform validate ./ec2
 
     - name: Terraform Plan
-      run: terraform plan ./ec2
+      run: terraform plan -chdir=./ec2
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve ./ec2
+      run: terraform apply -auto-approve -chdir=./ec2
