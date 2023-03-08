@@ -22,7 +22,6 @@ jobs:
     uses: ./.github/workflows/create-instanace.yml
     # with : 작업에서 사용할 변수들을 설정합니다.
     with:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       instance-type: ${{ inputs.instance-type }}
       working-directory: ec2
     # secrets : 작업에서 사용할 시크릿 값을 설정
