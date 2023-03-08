@@ -5,9 +5,11 @@ name: Set up Infra
 on:
   # workflow_dispatch 이벤트는 수동으로 워크플로우를 실행할 때 사용되는 이벤트
   workflow_dispatch:
+    inputs:
       instance-type:
         description: ec2 인스턴스 타입 (ex. t3.medium)
         required: false
+        default: "t2.micro"
         type: string
 
 
