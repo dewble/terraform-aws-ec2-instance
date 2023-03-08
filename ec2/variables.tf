@@ -27,3 +27,7 @@ variable "settings_file" {
 #   default = yamldecode(file("./scripts/config.yaml")).aws_security_group.ingress
 # }
 
+
+variable "instance_type" {
+  type = string
+}

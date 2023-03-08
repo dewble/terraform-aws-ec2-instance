@@ -1,0 +1,32 @@
+# GitHub Actions 페이지에서 해당 액션의 이름으로 표시
+name: Set up Infra
+
+# Github Action이 실행되는 조건을 설정
+on:
+  # workflow_dispatch 이벤트는 수동으로 워크플로우를 실행할 때 사용되는 이벤트
+  workflow_dispatch:
+      instance-type:
+        description: ec2 인스턴스 타입 (ex. t3.medium)
+        required: false
+        type: string
+
+
+# 동시성 관리를 위한 옵션
+## ${{ github.workflow }}를 사용하여 현재 워크플로우 이름을 가져와 해당 워크플로우에서 한 번에 실행할 수 있는 작업 수를 제한
+## 옵션을 사용하면 현재 워크플로우에서 실행할 수 있는 작업 수를 제한하여, 동시에 실행되는 작업의 수를 1개로 제한
+concurrency: ${{ github.workflow }}
+
+#  Github Action에서 실행될 작업을 정의
+jobs:
+  create-ec2-instance:
+    uses: ./.github/workflows/create-instanace.yml
+    # with : 작업에서 사용할 변수들을 설정합니다.
+    with:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      instance-type: ${{ inputs.instance-type }}
+      working-directory: ec2
+    # secrets : 작업에서 사용할 시크릿 값을 설정
+    secrets:
+      aws-region: ap-northeast-2
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
