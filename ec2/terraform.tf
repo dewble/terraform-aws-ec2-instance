@@ -17,17 +17,17 @@
 # # = state storage
 # ################################################
 terraform {
-  cloud {
-    organization = "dewble"
-    workspaces {
-      name = "aws-ec2"
-    }
-  }
-  # s3 {
-  #   bucket = "jeff-terraform-backend"
-  #   key    = "s3-backend/terraform.tfstate"
-  #   region = "ap-northeast-2"
+  # cloud {
+  #   organization = "dewble"
+  #   workspaces {
+  #     name = "aws-ec2"
+  #   }
   # }
+  backend "s3"{
+    bucket = "jeff-terraform-backend"
+    key    = "ec2-backend/terraform.tfstate"
+    region = "ap-northeast-2"
+  }
 }
 
 ###################################################
