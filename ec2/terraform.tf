@@ -58,8 +58,8 @@ locals {
 # Providers
 ###################################################
 provider "aws" {
-  region = local.settings.aws.region
+  region = local.config.aws_resources.region
 
   # Only these AWS Account IDs may be operated on by this template
-  allowed_account_ids = [local.settings.aws.id]
+  # allowed_account_ids = [local.settings.aws.id]
 }

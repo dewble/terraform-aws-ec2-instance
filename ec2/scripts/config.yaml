@@ -7,6 +7,7 @@ aws_resources:
   sub_pub_man_a_id: "subnet-004f0791a0c0c4e57"
   sub_pub_man_c_id: "subnet-0dd6cfeb8fe83cadc"
   key_name: "jeff"
+  region: "ap-northeast-2"
 
 aws_security_group:
   ingress:
