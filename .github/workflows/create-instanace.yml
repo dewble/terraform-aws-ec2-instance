@@ -3,7 +3,7 @@ name: Create instance
 on:
   workflow_call:
     inputs:
-      ec2-instance-type:
+      instance-type:
         required: true
         type: string
       working-directory:
