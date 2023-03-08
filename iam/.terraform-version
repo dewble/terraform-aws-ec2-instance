@@ -1,0 +1,5 @@
+#################### 작성내용 ####################
+# 해당 workspace에서 사용하는 terraform version을 고정 시킨다.
+# 여러 workspace를 관리하다 보면 각각의 terraform version이 다를 수 있다. 이런 경우를 대비하여 해당 workspace에서 필요한 terraform version을 고정시킬 수 있다.
+# tf-swtich (tfswitch install [link](https://tfswitch.warrensbox.com/Install/)) 를 사용하면 해당 파일이 dir에 있는 경우 작성된 버전으로 terraform version을 설치하게 된다.
+################################################

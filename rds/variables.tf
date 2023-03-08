@@ -27,10 +27,3 @@ variable "settings_file" {
 #   default = yamldecode(file("./scripts/config.yaml")).aws_security_group.ingress
 # }
 
-
-variable "instance_type" {
-  description = "EC2 instance type"
-  type        = string
-  default     = "t2.micro"
-}
-

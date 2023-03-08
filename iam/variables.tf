@@ -15,22 +15,9 @@ variable "settings_file" {
   default     = "./scripts/settings.yaml"
 }
 
-# variable "aws_security_group" {
-#   type = list(object({
-#     name        = string
-#     description = string
-#     from_port   = number
-#     to_port     = number
-#     protocol    = string
-#     cidr_blocks = list(string)
-#   }))
-#   default = yamldecode(file("./scripts/config.yaml")).aws_security_group.ingress
-# }
-
-
-variable "instance_type" {
-  description = "EC2 instance type"
+variable "policy_file" {
+  description = "The path of policy JSON file"
   type        = string
-  default     = "t2.micro"
+  default     = "./scripts/policy.json"
 }
 

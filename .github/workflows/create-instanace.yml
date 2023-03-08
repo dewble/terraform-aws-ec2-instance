@@ -47,7 +47,7 @@ jobs:
           terraform_wrapper: false
 
       - name: Terraform Init
-        run: terraform init -no-color
+        run: terraform init -no-color -upgrade
 
       - name: Terraform Validate
         run: terraform validate -no-color
