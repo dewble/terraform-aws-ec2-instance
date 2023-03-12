@@ -48,7 +48,7 @@ terraform {
 ################################################
 locals {
   config                 = yamldecode(file(var.config_file))
-  settings               = yamldecode(file(var.settings_file))
+  # settings               = yamldecode(file(var.settings_file))
   script_initial-install = file("${path.module}/scripts/initial-install.sh")
   # scripts_path = "${path.module}/scripts"
 }
