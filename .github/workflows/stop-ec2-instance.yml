@@ -1,4 +1,4 @@
-name: (Stop EC2 Instance
+name: Stop EC2 Instance
 on:
   workflow_call:
     inputs:
@@ -26,8 +26,8 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1

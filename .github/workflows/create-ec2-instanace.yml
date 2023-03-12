@@ -26,8 +26,8 @@ jobs:
         shell: bash
         working-directory: ${{ inputs.working-directory }}
 
-    outputs:
-      private-ip: ${{ steps.tf-apply.outputs.public-ip }}
+    # outputs:
+    #   private-ip: ${{ steps.tf-apply.outputs.public-ip }}
 
     steps:
       - name: Checkout
