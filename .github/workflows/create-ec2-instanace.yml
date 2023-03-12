@@ -60,5 +60,5 @@ jobs:
         id: tf-apply
         run: terraform apply -var="instance_type=${{ inputs.instance-type }}" -no-color -auto-approve -input=false
 
-      - name: Wait Until EC2 Instance is Running
-        run: aws ec2 wait instance-status-ok --instance-ids $(terraform output -raw instance_id)
+#       - name: Wait Until EC2 Instance is Running
+#         run: aws ec2 wait instance-status-ok --instance-ids $(terraform output -raw instance_id)
