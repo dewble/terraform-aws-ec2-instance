@@ -1,5 +1,5 @@
 # GitHub Actions 페이지에서 해당 액션의 이름으로 표시
-name: [WF]Set up AWS Infra
+name: Set up AWS Infra
 
 # Github Action이 실행되는 조건을 설정
 on:
