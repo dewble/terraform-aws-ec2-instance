@@ -6,11 +6,11 @@ on:
   # workflow_dispatch 이벤트는 수동으로 워크플로우를 실행할 때 사용되는 이벤트
   workflow_dispatch:
     inputs:
-      instance_id:
-        description: 'The ID of the EC2 instance to stop'
+      instance-type:
+        description: ec2 인스턴스 타입 (ex. t3.medium)
         required: false
+        default: "t2.micro"
         type: string
-
 
 # 동시성 관리를 위한 옵션
 ## ${{ github.workflow }}를 사용하여 현재 워크플로우 이름을 가져와 해당 워크플로우에서 한 번에 실행할 수 있는 작업 수를 제한
