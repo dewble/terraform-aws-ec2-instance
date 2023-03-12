@@ -22,7 +22,7 @@ jobs:
     uses: ./.github/workflows/stop-ec2-instance.yml
     # with : 작업에서 사용할 변수들을 설정합니다.
     with:
-      instance-type: ${{ inputs.instance-type }}
+      instance_id: ${{ inputs.instance_id }}
       working-directory: ./ec2
     # secrets : 작업에서 사용할 시크릿 값을 설정
     secrets:
