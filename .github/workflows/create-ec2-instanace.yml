@@ -1,4 +1,4 @@
-name: Create instance
+name: Create EC2 Instance
 
 on:
   workflow_call:

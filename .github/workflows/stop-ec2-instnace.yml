@@ -1,0 +1,42 @@
+name: Stop EC2 Instance
+on:
+  workflow_call:
+    inputs:
+      instance_id:
+        description: 'The ID of the EC2 instance to stop'
+        required: false
+        type: string
+      working-directory:
+        required: true
+        type: string
+    secrets:
+      aws-region:
+        required: true
+      aws-access-key-id:
+        required: true
+      aws-secret-access-key:
+        required: true
+jobs:
+  stop-instance:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.working-directory }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.aws-region }}
+
+      - name: Stop EC2 Instance
+        run: |
+          INSTANCE_ID=$( inputs.instance_id or terraform output -raw instance_id)
+          aws ec2 stop-instances --instance-ids $INSTANCE_ID
