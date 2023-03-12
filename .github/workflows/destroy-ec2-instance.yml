@@ -49,7 +49,5 @@ jobs:
       - name: Terraform Validate
         run: terraform validate -no-color
 
-      - name: Stop EC2 Instance
-        run: |
-          INSTANCE_ID=$(terraform output -raw instance_id)
-          aws ec2 stop-instances --instance-ids $INSTANCE_ID
+      - name: Destory EC2 Instance
+        run: terraform destroy -no-color -auto-approve -input=false

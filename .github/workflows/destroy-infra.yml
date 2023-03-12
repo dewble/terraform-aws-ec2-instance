@@ -1,5 +1,5 @@
 # GitHub Actions 페이지에서 해당 액션의 이름으로 표시
-name: (WF)Stop AWS Infra
+name: (WF)Destroy AWS Infra
 
 # Github Action이 실행되는 조건을 설정
 on:
@@ -20,7 +20,7 @@ concurrency: ${{ github.workflow }}
 #  Github Action에서 실행될 작업을 정의
 jobs:
   stop-ec2-instance:
-    uses: ./.github/workflows/stop-ec2-instance.yml
+    uses: ./.github/workflows/destroy-ec2-instance.yml
     # with : 작업에서 사용할 변수들을 설정합니다.
     with:
       instance_id: ${{ inputs.instance_id }}
