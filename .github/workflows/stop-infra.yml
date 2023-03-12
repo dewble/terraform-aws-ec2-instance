@@ -9,6 +9,7 @@ on:
       instance_id:
         description: 'The ID of the EC2 instance to stop'
         required: false
+        default: "terraform output -raw instance_id"
         type: string
 
 # 동시성 관리를 위한 옵션
