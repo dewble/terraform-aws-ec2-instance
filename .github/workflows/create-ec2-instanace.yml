@@ -18,7 +18,7 @@ on:
         required: true
 
 jobs:
-  ec2-create:
+  create-ec2-instance:
     runs-on: ubuntu-latest
 
     defaults:
