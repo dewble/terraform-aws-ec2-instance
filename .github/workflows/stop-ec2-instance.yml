@@ -51,5 +51,5 @@ jobs:
 
       - name: Stop EC2 Instance
         run: |
-          INSTANCE_ID=$(terraform output -raw instance_id)
+          INSTANCE_ID=$(terraform output instance_id | sed 's/"//g')
           aws ec2 stop-instances --instance-ids $INSTANCE_ID
