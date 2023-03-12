@@ -19,7 +19,7 @@ concurrency: ${{ github.workflow }}
 #  Github Action에서 실행될 작업을 정의
 jobs:
   stop-ec2-instance:
-    uses: ./.github/workflows/stop-ec2-instanace.yml
+    uses: ./.github/workflows/stop-ec2-instance.yml
     # with : 작업에서 사용할 변수들을 설정합니다.
     with:
       instance_id: ${{ inputs.instance_id }}
