@@ -17,7 +17,7 @@ on:
       aws-secret-access-key:
         required: true
 jobs:
-  stop-ec2-instance:
+  destroy-ec2-instance:
     runs-on: ubuntu-latest
 
     defaults:
