@@ -1,4 +1,4 @@
-name: Stop EC2 Instance
+name: Destory EC2 Instance
 on:
   workflow_call:
     inputs:
