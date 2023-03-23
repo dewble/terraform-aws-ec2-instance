@@ -23,17 +23,23 @@ concurrency: ${{ github.workflow }}
 jobs:
   apply-destroy-stop-start:
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ap-northeast-2
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      TF_ACTION: ${{ github.event.inputs.action }}
+      INSTANCE_TYPE: ${{ github.event.inputs.instance_type }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.aws-access-key-id }}
-          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
-          aws-region: ${{ secrets.aws-region }}
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ap-northeast-2
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
