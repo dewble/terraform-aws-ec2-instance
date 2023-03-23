@@ -1,15 +1,15 @@
 name: Destory EC2 Instance
 on:
-  workflow_call:
-    inputs:
-      instance_id:
-        description: 'The ID of the EC2 instance to stop'
-        required: false
-        type: string
+  workflow_call:    # 워크플로가 다른 워크플로에서 호출된 경우에만 실행
+    inputs:   # 호출할때 값을 전달
+      # instance_id:
+      #   description: 'The ID of the EC2 instance to stop'
+      #   required: false
+      #   type: string
       working-directory:
         required: true
         type: string
-    secrets:
+    secrets:    # 호출할때 값을 전달
       aws-region:
         required: true
       aws-access-key-id:
@@ -51,4 +51,3 @@ jobs:
 
       - name: Destory EC2 Instance
         run: terraform destroy -no-color -auto-approve -input=false
-

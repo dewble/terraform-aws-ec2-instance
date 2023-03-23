@@ -1,0 +1,63 @@
+# GitHub Actions 페이지에서 해당 액션의 이름으로 표시
+name: (WF)apply-destroy-stop-start
+
+# Github Action이 실행되는 조건을 설정
+on:
+  # workflow_dispatch 이벤트는 수동으로 워크플로우를 실행할 때 사용되는 이벤트
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Terraform action to perform (apply, destroy, start, or stop)'
+        required: true
+      instance_type:
+        description: 'AWS EC2 instance type (e.g., t3.medium)'
+        default: "t2.micro"
+        required: true
+
+# 동시성 관리를 위한 옵션
+## ${{ github.workflow }}를 사용하여 현재 워크플로우 이름을 가져와 해당 워크플로우에서 한 번에 실행할 수 있는 작업 수를 제한
+## 옵션을 사용하면 현재 워크플로우에서 실행할 수 있는 작업 수를 제한하여, 동시에 실행되는 작업의 수를 1개로 제한
+concurrency: ${{ github.workflow }}
+
+#  Github Action에서 실행될 작업을 정의
+jobs:
+  apply-destroy-stop-start:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.aws-access-key-id }}
+          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+          aws-region: ${{ secrets.aws-region }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.8
+
+      - name: Terraform Init
+        run: terraform init -no-color
+
+      - name: Terraform Validate
+        run: terraform validate -no-color
+
+      - name: Terraform Apply or Destroy
+        run: |
+          if [ "$TF_ACTION" == "apply" ]; then
+            terraform apply -auto-approve -var="instance_type=$INSTANCE_TYPE"
+          elif [ "$TF_ACTION" == "destroy" ]; then
+            terraform destroy -auto-approve
+          fi
+
+      - name: Terraform Stop or Start EC2 Instance
+        run: |
+          if [ "$TF_ACTION" == "stop" ]; then
+            aws ec2 stop-instances --instance-ids $INSTANCE_ID
+          elif [ "$TF_ACTION" == "start" ]; then
+            aws ec2 start-instances --instance-ids $INSTANCE_ID
+          fi

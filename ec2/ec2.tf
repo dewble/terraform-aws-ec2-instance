@@ -3,8 +3,8 @@ resource "aws_instance" "jeff-ubuntu" {
     aws_security_group.jeff-sg
   ]
   ami                  = data.aws_ami.ubuntu.id
-  # instance_type        = local.config.aws_resources.instanace_type
-  instance_type        = var.instance_type
+  # instance_type        = local.config.aws_resources.instanace_type    # yaml file에서 instanace_type을 지정해서 사용할 때
+  instance_type        = var.instance_type    # github action에서 instance_type을 받아 올때
   subnet_id            = local.config.aws_resources.sub_pub_man_a_id
   iam_instance_profile = "session-manager-instance-profile"
   key_name             = local.config.aws_resources.key_name
