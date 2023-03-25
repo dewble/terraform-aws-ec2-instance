@@ -64,7 +64,7 @@ jobs:
         run: |
           terraform output -raw instance_id > instance_id.txt
           INSTANCE_ID=$(cat instance_id.txt)
-          echo "INSTANCE_ID=$INSTANCE_ID"
+          echo "INSTANCE_ID=$INSTANCE_ID" >&2
           if [ "$TF_ACTION" == "stop" ]; then
             aws ec2 stop-instances --instance-ids "$INSTANCE_ID"
           elif [ "$TF_ACTION" == "start" ]; then
