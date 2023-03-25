@@ -13,6 +13,10 @@ on:
         description: 'AWS EC2 instance type (e.g. t3.medium)'
         default: "t3.medium"
         required: true
+      instance_id:
+        description: 'AWS EC2 instance ID (e.g. i-1234567890abcdef0)'
+        default: "i-0fab2100b97ca6b64"
+        required: true
 
 # 동시성 관리를 위한 옵션
 ## ${{ github.workflow }}를 사용하여 현재 워크플로우 이름을 가져와 해당 워크플로우에서 한 번에 실행할 수 있는 작업 수를 제한
@@ -62,9 +66,7 @@ jobs:
       - name: Terraform Stop or Start EC2 Instance
         if: ${{ github.event.inputs.action == 'start' || github.event.inputs.action == 'stop' }}
         run: |
-          terraform output -raw instance_id > instance_id.txt
-          INSTANCE_ID=$(cat instance_id.txt)
-          echo "INSTANCE_ID=$INSTANCE_ID" >&2
+          INSTANCE_ID=${{ github.event.inputs.instance_id }}
           if [ "$TF_ACTION" == "stop" ]; then
             aws ec2 stop-instances --instance-ids "$INSTANCE_ID"
           elif [ "$TF_ACTION" == "start" ]; then
