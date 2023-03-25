@@ -59,19 +59,12 @@ jobs:
             terraform destroy -auto-approve
           fi
 
-      - name: Get EC2 Instance ID
-        if: ${{ github.event.inputs.action == 'start' || github.event.inputs.action == 'stop' }}
-        run: |
-          INSTANCE_ID=$(terraform output -raw instance_id)
-          echo "::set-output name=instance_id::$INSTANCE_ID"
-        id: instance_id_output
-        # https://docs.github.com/ko/enterprise-server@3.6/actions/using-workflows/workflow-commands-for-github-actions
-
       - name: Terraform Stop or Start EC2 Instance
         if: ${{ github.event.inputs.action == 'start' || github.event.inputs.action == 'stop' }}
         run: |
+          echo "INSTANCE_ID=$(terraform output -raw instance_id)"
           if [ "$TF_ACTION" == "stop" ]; then
-            aws ec2 stop-instances --instance-ids ${{ steps.instance_id_output.outputs.instance_id }}
+            aws ec2 stop-instances --instance-ids $INSTANCE_ID
           elif [ "$TF_ACTION" == "start" ]; then
-            aws ec2 start-instances --instance-ids ${{ steps.instance_id_output.outputs.instance_id }}
+            aws ec2 start-instances --instance-ids $INSTANCE_ID
           fi
