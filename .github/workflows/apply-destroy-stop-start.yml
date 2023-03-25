@@ -18,8 +18,6 @@ on:
         description: 'AWS EC2 instance ID (e.g. i-1234567890abcdef0)'
         default: "i-0fab2100b97ca6b64"
         required: true
-  schedule:
-    - cron: '*/5 * * * *'  # 01:00 KST (UTC+9) is 16:00 UTC
 
 # 동시성 관리를 위한 옵션
 ## ${{ github.workflow }}를 사용하여 현재 워크플로우 이름을 가져와 해당 워크플로우에서 한 번에 실행할 수 있는 작업 수를 제한
@@ -36,8 +34,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_ACTION: ${{ github.event.inputs.action }}
       GITHUB_EVENT_NAME: ${{ github.event_name }}
-      INSTANCE_TYPE: ${{ github.event.inputs.instance_type || 't3.medium' }}
-      INSTANCE_ID: ${{ github.event.inputs.instance_id || 'i-0fab2100b97ca6b64' }}
+      INSTANCE_TYPE: ${{ github.event.inputs.instance_type }}
+      INSTANCE_ID: ${{ github.event.inputs.instance_id }}
 
     defaults:
       run:
@@ -68,10 +66,10 @@ jobs:
             terraform destroy -auto-approve
           fi
       - name: Terraform Stop or Start EC2 Instance
-        if: ${{ env.TF_ACTION == 'start' || env.TF_ACTION == 'stop' || env.GITHUB_EVENT_NAME == 'schedule' }}
+        if: ${{ env.TF_ACTION == 'start' || env.TF_ACTION == 'stop' }}
         run: |
           INSTANCE_ID=${{ github.event.inputs.instance_id }}
-          if [ "$TF_ACTION" == "stop" ] || [ "$GITHUB_EVENT_NAME" == "schedule" ]; then
+          if [ "$TF_ACTION" == "stop" ]; then
             aws ec2 stop-instances --instance-ids "$INSTANCE_ID"
           elif [ "$TF_ACTION" == "start" ]; then
             aws ec2 start-instances --instance-ids "$INSTANCE_ID"

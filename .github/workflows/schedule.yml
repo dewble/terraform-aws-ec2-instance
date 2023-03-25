@@ -4,7 +4,7 @@ name: (WF)schedule
 # Set conditions for Github Action to run
 on:
   schedule:
-    - cron: '46 6 * * *' # 01:00 KST (UTC+9) is 16:00 UTC
+    - cron: '0 1 * * *' # 01:00 KST (UTC+9) is 16:00 UTC
 
 # Options for concurrency management
 concurrency: ${{ github.workflow }}
@@ -20,6 +20,7 @@ jobs:
       TF_ACTION: "stop"
       INSTANCE_TYPE: "t3.medium"
       INSTANCE_ID: "i-0fab2100b97ca6b64"
+      # GITHUB_EVENT_NAME: ${{ github.event_name }}
 
     defaults:
       run:
@@ -40,14 +41,6 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate -no-color
-
-      - name: Terraform Apply or Destroy
-        run: |
-          if [ "$TF_ACTION" == "apply" ]; then
-            terraform apply -auto-approve -var="instance_type=$INSTANCE_TYPE"
-          elif [ "$TF_ACTION" == "destroy" ]; then
-            terraform destroy -auto-approve
-          fi
 
       - name: Terraform Stop or Start EC2 Instance
         run: |
