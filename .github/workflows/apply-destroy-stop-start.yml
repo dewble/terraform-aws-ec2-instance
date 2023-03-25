@@ -15,8 +15,8 @@ on:
         default: "t3.medium"
         required: true
       instance_id:
-        description: 'AWS EC2 instance ID (e.g. i-1234567890abcdef0)'
-        default: "i-0fab2100b97ca6b64"
+        description: 'AWS EC2 instance ID (e.g. i-004a2af88c416c633)'
+        default: "i-004a2af88c416c633"
         required: true
 
 # 동시성 관리를 위한 옵션
