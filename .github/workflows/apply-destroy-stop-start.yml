@@ -8,6 +8,7 @@ on:
     inputs:
       action:
         description: 'Terraform action to perform (apply, destroy, start, or stop)'
+        default: "stop"
         required: true
       instance_type:
         description: 'AWS EC2 instance type (e.g. t3.medium)'
@@ -18,7 +19,7 @@ on:
         default: "i-0fab2100b97ca6b64"
         required: true
   schedule:
-    - cron: '27 6 * * *'  # 01:00 KST (UTC+9) is 16:00 UTC
+    - cron: '34 6 * * *'  # 01:00 KST (UTC+9) is 16:00 UTC
 
 # 동시성 관리를 위한 옵션
 ## ${{ github.workflow }}를 사용하여 현재 워크플로우 이름을 가져와 해당 워크플로우에서 한 번에 실행할 수 있는 작업 수를 제한
