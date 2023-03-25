@@ -19,7 +19,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_ACTION: "stop"
       INSTANCE_TYPE: "t3.medium"
-      INSTANCE_ID: "i-0fab2100b97ca6b64"
+      INSTANCE_ID: "i-004a2af88c416c633"
       # GITHUB_EVENT_NAME: ${{ github.event_name }}
 
     defaults:
