@@ -1,32 +1,15 @@
-# GitHub Actions 페이지에서 해당 액션의 이름으로 표시
+# Appear as the action's name on the GitHub Actions page
 name: (WF)schedule
 
-# Github Action이 실행되는 조건을 설정
+# Set conditions for Github Action to run
 on:
-  # workflow_dispatch 이벤트는 수동으로 워크플로우를 실행할 때 사용되는 이벤트
-  workflow_dispatch:
-    inputs:
-      action:
-        description: 'Terraform action to perform (apply, destroy, start, or stop)'
-        default: "stop"
-        required: true
-      instance_type:
-        description: 'AWS EC2 instance type (e.g. t3.medium)'
-        default: "t3.medium"
-        required: true
-      instance_id:
-        description: 'AWS EC2 instance ID (e.g. i-1234567890abcdef0)'
-        default: "i-0fab2100b97ca6b64"
-        required: true
   schedule:
-    - cron: '34 6 * * *'  # 01:00 KST (UTC+9) is 16:00 UTC
+    - cron: '46 6 * * *' # 01:00 KST (UTC+9) is 16:00 UTC
 
-# 동시성 관리를 위한 옵션
-## ${{ github.workflow }}를 사용하여 현재 워크플로우 이름을 가져와 해당 워크플로우에서 한 번에 실행할 수 있는 작업 수를 제한
-## 옵션을 사용하면 현재 워크플로우에서 실행할 수 있는 작업 수를 제한하여, 동시에 실행되는 작업의 수를 1개로 제한
+# Options for concurrency management
 concurrency: ${{ github.workflow }}
 
-#  Github Action에서 실행될 작업을 정의
+# Define the task to be executed in Github Action
 jobs:
   apply-destroy-stop-start:
     runs-on: ubuntu-latest
@@ -34,8 +17,9 @@ jobs:
       AWS_REGION: ap-northeast-2
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      TF_ACTION: ${{ github.event.inputs.action }}
-      INSTANCE_TYPE: ${{ github.event.inputs.instance_type }}
+      TF_ACTION: "stop"
+      INSTANCE_TYPE: "t3.medium"
+      INSTANCE_ID: "i-0fab2100b97ca6b64"
 
     defaults:
       run:
@@ -58,7 +42,6 @@ jobs:
         run: terraform validate -no-color
 
       - name: Terraform Apply or Destroy
-        if: ${{ github.event.inputs.action == 'apply' || github.event.inputs.action == 'destroy' }}
         run: |
           if [ "$TF_ACTION" == "apply" ]; then
             terraform apply -auto-approve -var="instance_type=$INSTANCE_TYPE"
@@ -67,10 +50,8 @@ jobs:
           fi
 
       - name: Terraform Stop or Start EC2 Instance
-        if: ${{ github.event.inputs.action == 'start' || github.event.inputs.action == 'stop' || github.event_name == 'schedule' }}
         run: |
-          INSTANCE_ID=${{ github.event.inputs.instance_id }}
-          if [ "$TF_ACTION" == "stop" ] || [ "$GITHUB_EVENT_NAME" == "schedule" ]; then
+          if [ "$TF_ACTION" == "stop" ]; then
             aws ec2 stop-instances --instance-ids "$INSTANCE_ID"
           elif [ "$TF_ACTION" == "start" ]; then
             aws ec2 start-instances --instance-ids "$INSTANCE_ID"
