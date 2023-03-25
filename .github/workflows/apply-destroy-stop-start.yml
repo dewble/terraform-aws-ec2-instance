@@ -62,7 +62,8 @@ jobs:
       - name: Terraform Stop or Start EC2 Instance
         if: ${{ github.event.inputs.action == 'start' || github.event.inputs.action == 'stop' }}
         run: |
-          echo "INSTANCE_ID=$(terraform output -raw instance_id)"
+          INSTANCE_ID=$(terraform output -raw instance_id)
+          echo "INSTANCE_ID=$INSTANCE_ID"
           if [ "$TF_ACTION" == "stop" ]; then
             aws ec2 stop-instances --instance-ids $INSTANCE_ID
           elif [ "$TF_ACTION" == "start" ]; then
