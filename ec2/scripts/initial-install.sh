@@ -35,4 +35,4 @@ python -m venv /home/ubuntu/venvs/jeff-api
 source /home/ubuntu/venvs/jeff-api/bin/activate
 
 echo "Installing Python packages"
-pip install wheel fastapi "uvicorn[standard]" sqlalchemy alembic "pydantic[email]" "passlib[bcrypt]" python-multipart "python-jose[cryptography]" gunicorn
+pip install wheel fastapi "uvicorn[standard]" sqlalchemy alembic "pydantic[email]" "passlib[bcrypt]" python-multipart "python-jose[cryptography]" gunicorn psycopg2-binary
