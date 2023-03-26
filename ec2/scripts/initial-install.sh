@@ -7,7 +7,14 @@ echo "Installing PostgreSQL"
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt update
-sudo apt install -y postgresql-14
+sudo apt install -y postgresql-14 postgresql-contrib postgresql-client
+sudo su - postgres -c "bash -c '
+# Create a new user with ID jeff and password jeff
+psql -c \"CREATE ROLE jeff WITH LOGIN PASSWORD '\''jeff'\'' CREATEDB;\"
+
+# Create a new database called jeff-api
+createdb jeff-api --owner=jeff
+'"
 
 echo "Setting hostname"
 sudo hostnamectl set-hostname jeff-instance
